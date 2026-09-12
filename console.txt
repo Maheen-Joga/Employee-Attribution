@@ -1,0 +1,158 @@
+'data.frame':	1470 obs. of  35 variables:
+ $ Age                     : int  41 49 37 33 27 32 59 30 38 36 ...
+ $ Attrition               : chr  "Yes" "No" "Yes" "No" ...
+ $ BusinessTravel          : chr  "Travel_Rarely" "Travel_Frequently" "Travel_Rarely" "Travel_Frequently" ...
+ $ DailyRate               : int  1102 279 1373 1392 591 1005 1324 1358 216 1299 ...
+ $ Department              : chr  "Sales" "Research & Development" "Research & Development" "Research & Development" ...
+ $ DistanceFromHome        : int  1 8 2 3 2 2 3 24 23 27 ...
+ $ Education               : int  2 1 2 4 1 2 3 1 3 3 ...
+ $ EducationField          : chr  "Life Sciences" "Life Sciences" "Other" "Life Sciences" ...
+ $ EmployeeCount           : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ EmployeeNumber          : int  1 2 4 5 7 8 10 11 12 13 ...
+ $ EnvironmentSatisfaction : int  2 3 4 4 1 4 3 4 4 3 ...
+ $ Gender                  : chr  "Female" "Male" "Male" "Female" ...
+ $ HourlyRate              : int  94 61 92 56 40 79 81 67 44 94 ...
+ $ JobInvolvement          : int  3 2 2 3 3 3 4 3 2 3 ...
+ $ JobLevel                : int  2 2 1 1 1 1 1 1 3 2 ...
+ $ JobRole                 : chr  "Sales Executive" "Research Scientist" "Laboratory Technician" "Research Scientist" ...
+ $ JobSatisfaction         : int  4 2 3 3 2 4 1 3 3 3 ...
+ $ MaritalStatus           : chr  "Single" "Married" "Single" "Married" ...
+ $ MonthlyIncome           : int  5993 5130 2090 2909 3468 3068 2670 2693 9526 5237 ...
+ $ MonthlyRate             : int  19479 24907 2396 23159 16632 11864 9964 13335 8787 16577 ...
+ $ NumCompaniesWorked      : int  8 1 6 1 9 0 4 1 0 6 ...
+ $ Over18                  : chr  "Y" "Y" "Y" "Y" ...
+ $ OverTime                : chr  "Yes" "No" "Yes" "Yes" ...
+ $ PercentSalaryHike       : int  11 23 15 11 12 13 20 22 21 13 ...
+ $ PerformanceRating       : int  3 4 3 3 3 3 4 4 4 3 ...
+ $ RelationshipSatisfaction: int  1 4 2 3 4 3 1 2 2 2 ...
+ $ StandardHours           : int  80 80 80 80 80 80 80 80 80 80 ...
+ $ StockOptionLevel        : int  0 1 0 0 1 0 3 1 0 2 ...
+ $ TotalWorkingYears       : int  8 10 7 8 6 8 12 1 10 17 ...
+ $ TrainingTimesLastYear   : int  0 3 3 3 3 2 3 2 2 3 ...
+ $ WorkLifeBalance         : int  1 3 3 3 3 2 2 3 3 2 ...
+ $ YearsAtCompany          : int  6 10 0 8 2 7 1 1 9 7 ...
+ $ YearsInCurrentRole      : int  4 7 0 7 2 7 0 0 7 7 ...
+ $ YearsSinceLastPromotion : int  0 1 0 3 2 3 0 0 1 7 ...
+ $ YearsWithCurrManager    : int  5 7 0 0 2 6 0 0 8 7 ...
+[1] 0
+[1] 0
+Overall attrition rate:
+
+       No       Yes 
+0.8387755 0.1612245 
+
+Attrition by OverTime status:
+     
+       No Yes
+  No  944 110
+  Yes 289 127
+     
+        No  Yes
+  No  89.6 10.4
+  Yes 69.5 30.5
+
+MonthlyIncome summary by Attrition group:
+$No
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1051    3211    5204    6833    8834   19999 
+
+$Yes
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1009    2373    3202    4787    5916   19859 
+
+      No      Yes 
+4818.208 3640.210 
+null device 
+          1 
+null device 
+          1 
+null device 
+          1 
+
+
+--- H1: Chi-square test of independence (Attrition ~ OverTime) ---
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tab_ot
+X-squared = 87.564, df = 1, p-value < 2.2e-16
+
+     
+            No       Yes
+  No  884.0694 169.93061
+  Yes 348.9306  67.06939
+Cramer's V (effect size): X-squared 
+0.2440646 
+
+
+--- H2: Assumption checks for MonthlyIncome ~ Attrition ---
+Shapiro-Wilk (Stayed):
+
+	Shapiro-Wilk normality test
+
+data:  d$MonthlyIncome[d$Attrition == "No"]
+W = 0.83413, p-value < 2.2e-16
+
+Shapiro-Wilk (Left):
+
+	Shapiro-Wilk normality test
+
+data:  d$MonthlyIncome[d$Attrition == "Yes"]
+W = 0.7799, p-value < 2.2e-16
+
+
+Levene's test (Brown-Forsythe, base R) for equal variances:
+              Df     Sum Sq   Mean Sq F value    Pr(>F)    
+group          1 1.9752e+08 197516263    14.9 0.0001183 ***
+Residuals   1468 1.9461e+10  13256492                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+--- Primary test: Mann-Whitney U (Wilcoxon rank-sum) ---
+
+	Wilcoxon rank sum test with continuity correction
+
+data:  MonthlyIncome by Attrition
+W = 191600, p-value = 2.951e-14
+alternative hypothesis: true location shift is not equal to 0
+95 percent confidence interval:
+  991.0001 1826.9999
+sample estimates:
+difference in location 
+                  1408 
+
+
+--- Robustness check: Welch's t-test (unequal variances) ---
+
+	Welch Two Sample t-test
+
+data:  MonthlyIncome by Attrition
+t = 7.4826, df = 412.74, p-value = 4.434e-13
+alternative hypothesis: true difference in means between group No and group Yes is not equal to 0
+95 percent confidence interval:
+ 1508.244 2583.050
+sample estimates:
+ mean in group No mean in group Yes 
+         6832.740          4787.093 
+
+
+Approx effect size r = 0.198 
+R version 4.3.3 (2024-02-29)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 24.04.4 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.0 
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.0
+
+locale:
+[1] C
+
+time zone: Etc/UTC
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+[1] compiler_4.3.3
